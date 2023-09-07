@@ -1,4 +1,7 @@
 import { RequestMethod } from '@nestjs/common'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const { NODE_ENV = 'development' } = process.env
 const isTest = NODE_ENV === 'test'
@@ -12,13 +15,14 @@ export const loggerConfig = {
       ? undefined
       : {
           target: 'pino-pretty',
-
           options: {
             singleLine: true,
+            ignore: 'pid,hostname',
           },
         },
     autoLogging: isTest ? false : true,
     quietReqLogger: true,
+    customErrorObject: () => {},
   },
   exclude: [{ method: RequestMethod.ALL, path: '/healthz' }],
 }

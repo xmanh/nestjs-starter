@@ -27,6 +27,7 @@
     "@nestjs/platform-fastify": "^10.2.4",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "fastify": "^4.22.2",
     "nestjs-pino": "^3.4.0",
     "pino-http": "^8.5.0",
     "pino-pretty": "^10.2.0",

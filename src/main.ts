@@ -1,3 +1,4 @@
+import { AllExceptionFilter } from '@/shared/filters'
 import { genReqId } from '@/shared/utils'
 import fastifyCookie from '@fastify/cookie'
 import { ValidationPipe } from '@nestjs/common'
@@ -18,18 +19,10 @@ async function bootstrap() {
   app.useLogger(logger)
   app.flushLogs()
 
-  // Auto-validation
-  // https://docs.nestjs.com/techniques/validation#stripping-properties
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-    }),
-  )
-
   // Cookies
   // https://docs.nestjs.com/techniques/cookies
-  await app.register(fastifyCookie, {
-    secret: 'my-secret', // for cookies signature
+  await app.register(fastifyCookie as any, {
+    secret: config.get('COOKIE_SECRET'),
   })
 
   app.enableCors({
@@ -37,6 +30,18 @@ async function bootstrap() {
     credentials: true,
     exposedHeaders: ['set-cookie'],
   })
+
+  // Auto-validation
+  // https://docs.nestjs.com/techniques/validation#stripping-properties
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      stopAtFirstError: true,
+    }),
+  )
+
+  // Exception Filter
+  app.useGlobalFilters(new AllExceptionFilter(logger))
 
   app.enableShutdownHooks()
 

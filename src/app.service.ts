@@ -3,7 +3,7 @@ import { PinoLogger } from 'nestjs-pino'
 
 @Injectable()
 export class AppService {
-  constructor(private readonly logger: PinoLogger) {
+  constructor(private logger: PinoLogger) {
     this.logger.setContext(AppService.name)
   }
 
