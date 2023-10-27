@@ -1,12 +1,11 @@
+import 'dotenv/config'
+
 import { RequestMethod } from '@nestjs/common'
-import dotenv from 'dotenv'
 
-dotenv.config()
+const { NODE_ENV } = process.env
 
-const { NODE_ENV = 'development' } = process.env
 const isTest = NODE_ENV === 'test'
 const isProd = NODE_ENV === 'production'
-const isDev = NODE_ENV === 'development'
 
 export const loggerConfig = {
   pinoHttp: {

@@ -1,17 +1,26 @@
+import { Logger } from 'nestjs-pino'
+
 import { AllExceptionFilter } from '@/shared/filters'
 import { genReqId } from '@/shared/utils'
 import fastifyCookie from '@fastify/cookie'
 import { ValidationPipe } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify'
-import { Logger } from 'nestjs-pino'
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify'
+
+import { swagger } from '@/swagger'
 import { AppModule } from './app.module'
 
 async function bootstrap() {
   // fastify
   const adapter = new FastifyAdapter({ logger: false, genReqId })
-  const app = await NestFactory.create<NestFastifyApplication>(AppModule, adapter)
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,
+    adapter,
+  )
 
   const logger = app.get(Logger)
   const config = app.get(ConfigService)
@@ -42,6 +51,8 @@ async function bootstrap() {
 
   // Exception Filter
   app.useGlobalFilters(new AllExceptionFilter(logger))
+
+  swagger(app)
 
   app.enableShutdownHooks()
 

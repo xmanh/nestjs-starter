@@ -1,9 +1,14 @@
 import { Injectable } from '@nestjs/common'
 import { PinoLogger } from 'nestjs-pino'
+import { HealthCheckService, TypeOrmHealthIndicator } from '@nestjs/terminus'
 
 @Injectable()
 export class AppService {
-  constructor(private logger: PinoLogger) {
+  constructor(
+    private logger: PinoLogger,
+    private health: HealthCheckService,
+    private db: TypeOrmHealthIndicator,
+  ) {
     this.logger.setContext(AppService.name)
   }
 
@@ -14,8 +19,6 @@ export class AppService {
   }
 
   healthCheck() {
-    return {
-      status: 'UP',
-    }
+    return this.health.check([() => this.db.pingCheck('database')])
   }
 }
