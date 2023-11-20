@@ -1,3 +1,3 @@
 #!/bin/sh
 yarn db:up
-yarn dev
+yarn start:dev

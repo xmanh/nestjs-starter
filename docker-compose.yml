@@ -28,6 +28,18 @@ services:
     networks:
       - backend
 
+  adminer:
+    image: adminer
+    command: [ "php", "-S", "0.0.0.0:8080", "-t", "/var/www/html" ]
+    environment:
+      ADMINER_DESIGN: pappu687
+      ADMINER_DEFAULT_SERVER: postgres
+      ADMINER_PLUGINS: "tables-filter tinymce"
+    ports:
+      - 8181:8080
+    networks:
+      - backend
+
 networks:
   backend:
 

@@ -1,3 +1,3 @@
 #!/bin/sh
-yarn db:up
-yarn start:prod
+npx typeorm migration:run -d dist/db.config.js
+node dist/main
