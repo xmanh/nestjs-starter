@@ -1,5 +1,12 @@
 import 'dotenv/config'
+
 import { DataSource } from 'typeorm'
+
+import { PasswordReset, User } from '@/db/entities'
+import {
+  CreatePasswordResetsTable1700549563853,
+  CreateUsersTable1700549446213,
+} from '@/db/migrations'
 
 const { NODE_ENV, DB_HOST, DB_USER, DB_PASS, DB_MAIN, DB_PORT, DB_TEST } =
   process.env
@@ -20,6 +27,9 @@ export const dbConfig: any = {
 
 export default new DataSource({
   ...dbConfig,
-  entities: [],
-  migrations: [],
+  entities: [User, PasswordReset],
+  migrations: [
+    CreateUsersTable1700549446213,
+    CreatePasswordResetsTable1700549563853,
+  ],
 })
