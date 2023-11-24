@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { ResponseDTO } from '@/shared/dto'
 import { applyDecorators } from '@nestjs/common'
 import {

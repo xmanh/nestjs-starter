@@ -9,6 +9,7 @@ import { TerminusModule } from '@nestjs/terminus'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { dbConfig } from './db.config'
+import { AuthModule } from './auth/auth.module'
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { dbConfig } from './db.config'
     TypeOrmModule.forRoot(dbConfig),
     LoggerModule.forRoot(loggerConfig),
     TerminusModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
