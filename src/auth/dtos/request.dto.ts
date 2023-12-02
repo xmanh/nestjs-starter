@@ -3,7 +3,7 @@ import { FastifyRequest } from 'fastify'
 import { User } from '@/db/entities'
 import { ApiProperty, OmitType, PartialType } from '@nestjs/swagger'
 import { Type } from 'class-transformer'
-import { IsEmail, IsNotEmpty, Min } from 'class-validator'
+import { IsEmail, IsNotEmpty, Min, MinLength } from 'class-validator'
 
 export interface AuthRequest extends FastifyRequest {
   user: User
@@ -23,7 +23,7 @@ export class CreateUserDto {
 
   @ApiProperty()
   @Type(() => String)
-  @Min(8)
+  @MinLength(8)
   @IsNotEmpty()
   password: string
 }

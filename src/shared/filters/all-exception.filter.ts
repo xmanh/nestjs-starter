@@ -1,5 +1,11 @@
 import { ResponseDTO } from '@/shared/dto'
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException } from '@nestjs/common'
+import { HttpCodeMessages } from '@/shared/utils'
+import {
+  ArgumentsHost,
+  Catch,
+  ExceptionFilter,
+  HttpException,
+} from '@nestjs/common'
 import { FastifyReply } from 'fastify'
 import { Logger } from 'nestjs-pino'
 
@@ -19,7 +25,10 @@ export class AllExceptionFilter<T = any> implements ExceptionFilter<T> {
       statusCode = exception.getStatus()
       error = exception.message
       const response = exception.getResponse() as any
-      message = response.message
+      message =
+        response.message ||
+        HttpCodeMessages[statusCode] ||
+        'Internal server error'
     }
 
     if (statusCode >= 500) {

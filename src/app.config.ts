@@ -1,6 +1,7 @@
 import 'dotenv/config'
 
 import { RequestMethod } from '@nestjs/common'
+import { JwtModuleOptions } from '@nestjs/jwt'
 
 const { NODE_ENV } = process.env
 
@@ -24,4 +25,12 @@ export const loggerConfig = {
     customErrorObject: () => {},
   },
   exclude: [{ method: RequestMethod.ALL, path: '/healthz' }],
+}
+
+export const jwtConfig: JwtModuleOptions = {
+  global: true,
+  secret: process.env.JWT_SECRET,
+  signOptions: {
+    expiresIn: process.env.JWT_TTL,
+  },
 }
