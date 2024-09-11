@@ -16,13 +16,13 @@ export const loggerConfig = {
       : {
           target: 'pino-pretty',
           options: {
-            singleLine: true,
-            ignore: 'pid,hostname',
+            ignore: 'pid,hostname,context',
+            translateTime: `UTC:yyyy-mm-dd'T'HH:MM:ss'Z'`,
+            messageFormat: `{if context}[{context}] {end}{msg}`,
           },
         },
     autoLogging: isTest ? false : true,
     quietReqLogger: true,
-    customErrorObject: () => {},
   },
   exclude: [{ method: RequestMethod.ALL, path: '/healthz' }],
 }

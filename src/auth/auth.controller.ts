@@ -1,16 +1,22 @@
 import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common'
 
-import { AuthService } from '@/auth/auth.service'
 import { JwtAuthGuard, LocalAuthGuard } from '@/auth/auth.guard'
+import { AuthService } from '@/auth/auth.service'
 import { ApiOkResponseDto } from '@/shared/decorators'
 import { ResponseDto } from '@/shared/dto'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
+import { PinoLogger } from 'nestjs-pino'
 import { AuthLocalDto, AuthRequest, AuthUser, CreateUserDto } from './auth.dto'
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private logger: PinoLogger,
+  ) {
+    this.logger.setContext(AuthController.name)
+  }
 
   @ApiOkResponseDto({
     data: AuthUser,
@@ -38,7 +44,7 @@ export class AuthController {
   })
   @UseGuards(JwtAuthGuard)
   @Get('refresh-token')
-  async profile(@Request() req: AuthRequest) {
+  async refreshToken(@Request() req: AuthRequest) {
     const accessToken = this.authService.getAccessToken(req.user.id)
     return new ResponseDto({ data: { accessToken } })
   }
