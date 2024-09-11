@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common'
+import { HealthCheckService, MikroOrmHealthIndicator } from '@nestjs/terminus'
 import { PinoLogger } from 'nestjs-pino'
-import { HealthCheckService, TypeOrmHealthIndicator } from '@nestjs/terminus'
 
 @Injectable()
 export class AppService {
   constructor(
     private logger: PinoLogger,
     private health: HealthCheckService,
-    private db: TypeOrmHealthIndicator,
+    private db: MikroOrmHealthIndicator,
   ) {
     this.logger.setContext(AppService.name)
   }

@@ -25,7 +25,7 @@ export class MetaDto {
   }
 }
 
-export class ResponseDTO<T> {
+export class ResponseDto<T> {
   @ApiProperty({ default: true })
   success: boolean = true
 
@@ -44,7 +44,7 @@ export class ResponseDTO<T> {
   @ApiProperty({ required: false })
   data?: T
 
-  constructor(data: Partial<ResponseDTO<T>> = {}) {
+  constructor(data: Partial<ResponseDto<T>> = {}) {
     Object.assign(this, {
       ...data,
       message: data.message || HttpCodeMessages[this.statusCode],
