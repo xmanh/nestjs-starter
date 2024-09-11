@@ -1,10 +1,11 @@
 import { INestApplication } from '@nestjs/common'
-import supertest, { SuperTest, Test } from 'supertest'
+import supertest from 'supertest'
+import TestAgent from 'supertest/lib/agent'
 import { closeApp, initApp } from './utils'
 
 describe('AppController (e2e)', () => {
   let app: INestApplication
-  let httpClient: SuperTest<Test>
+  let httpClient: TestAgent
 
   beforeAll(async () => {
     app = await initApp()
@@ -22,6 +23,6 @@ describe('AppController (e2e)', () => {
 
   it('[GET] /healthz', async () => {
     const res = await httpClient.get('/healthz').expect(200)
-    expect(res.body.status).toBe('UP')
+    expect(res.body.status).toBe('ok')
   })
 })
