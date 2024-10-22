@@ -5,6 +5,9 @@
   "compilerOptions": {
     "deleteOutDir": true,
     "typeCheck": true,
-    "builder": "swc"
+    "builder": "swc",
+    "assets": [
+      "**/*.hbs"
+    ]
   }
 }
